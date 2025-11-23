@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập quản trị</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="mb-4 text-center">Đăng nhập quản trị</h2>
+            <% if (error) { %>
+              <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+            <form action="/login" method="POST">
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Mật khẩu</label>
+                <div class="input-group">
+                  <input id="password" type="password" name="password" class="form-control" required>
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Hiển thị mật khẩu">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <button class="btn btn-primary w-100" type="submit">Đăng nhập</button>
+              
+              <!-- Modal tạo tài khoản quản trị -->
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  // Toggle show/hide password
+  (function(){
+    const toggle = document.getElementById('togglePassword');
+    const pwd = document.getElementById('password');
+    if (!toggle || !pwd) return;
+    toggle.addEventListener('click', function () {
+      const isPassword = pwd.getAttribute('type') === 'password';
+      pwd.setAttribute('type', isPassword ? 'text' : 'password');
+      this.innerHTML = isPassword ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+    });
+  })();
+</script>
+</html>

@@ -1,0 +1,66 @@
+<%- include('../layouts/sidebar') %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết sản phẩm</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2 class="text-center mb-4">🔍 Chi tiết sản phẩm</h2>
+    <div class="mb-3">
+      <a href="/products" class="btn btn-secondary">&larr; Quay lại danh sách</a>
+    </div>
+    <div class="card p-4 shadow-sm">
+      <h4><%= product.name %></h4>
+      <div class="mb-3">
+        <strong>Giá:</strong> <%= product.price %> <br>
+        <strong>Số lượng:</strong> <%= product.quantity %> <br>
+        <strong>Thương hiệu:</strong> <%= product.brand %> <br>
+        <strong>Xuất xứ:</strong> <%= product.origin %> <br>
+        <strong>Danh mục:</strong> <%= product.category %> <br>
+        <strong>Mô tả:</strong> <%= product.description %> <br>
+      </div>
+      <div class="mb-3">
+        <strong>Hình ảnh sản phẩm:</strong>
+        <% let imgs = product.images; %>
+        <% if (!Array.isArray(imgs)) { try { imgs = JSON.parse(product.images); } catch(e) { imgs = []; } } %>
+        <% if (Array.isArray(imgs) && imgs.length) { %>
+          <div class="d-flex flex-wrap gap-2">
+            <% for (let i = 0; i < imgs.length; i++) { %>
+              <img src="<%= imgs[i] %>" alt="Ảnh" style="width:120px;height:120px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="showImageModal('<%= imgs[i] %>')">
+            <% } %>
+          </div>
+          <div id="imageModal" class="modal" tabindex="-1" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;">
+            <span onclick="closeImageModal()" style="position:absolute;top:30px;right:40px;font-size:2.5rem;color:#fff;cursor:pointer;font-weight:bold;z-index:10001;">&times;</span>
+            <img id="modalImg" src="" style="max-width:90vw;max-height:80vh;box-shadow:0 0 20px #000;border-radius:8px;z-index:10000;">
+          </div>
+          <script>
+            function showImageModal(src) {
+              var modal = document.getElementById('imageModal');
+              var img = document.getElementById('modalImg');
+              img.src = src;
+              modal.style.display = 'flex';
+            }
+            function closeImageModal() {
+              document.getElementById('imageModal').style.display = 'none';
+            }
+            // Đóng modal khi click ra ngoài ảnh
+            document.addEventListener('DOMContentLoaded', function() {
+              var modal = document.getElementById('imageModal');
+              if (modal) {
+                modal.addEventListener('click', function(e) {
+                  if (e.target === modal) closeImageModal();
+                });
+              }
+            });
+          </script>
+        <% } else { %>
+          <div class="text-muted">Chưa có hình ảnh</div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

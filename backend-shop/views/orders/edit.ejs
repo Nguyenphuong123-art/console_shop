@@ -1,0 +1,63 @@
+<%- include('../layouts/sidebar') %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sửa đơn hàng</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="mb-4">Sửa đơn hàng #<%= order.id %></h1>
+    <% if (error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+  <form action="/orders/<%= order.id %>" method="POST" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm">
+      <div class="mb-3">
+        <label class="form-label">Người đặt</label>
+        <select name="user_id" class="form-select" required>
+          <% users.forEach(u => { %>
+            <option value="<%= u.id %>" <%= u.id === order.user_id ? 'selected' : '' %>><%= u.name %> (<%= u.email %>)</option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Sản phẩm</label>
+        <select name="product_id" class="form-select" required>
+          <% products.forEach(p => { %>
+            <option value="<%= p.id %>" <%= p.id === order.product_id ? 'selected' : '' %>><%= p.name %> - <%= p.price %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Số lượng</label>
+        <input type="number" name="quantity" class="form-control" min="1" value="<%= order.quantity %>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phiếu thanh toán (mã/ghi chú hoặc upload file)</label>
+        <input type="text" name="payment_receipt" class="form-control mb-2" value="<%= order.payment_receipt && !order.payment_receipt.startsWith('/uploads/') ? order.payment_receipt : '' %>" placeholder="Nhập mã/ghi chú (nếu muốn)">
+        <% if (order.payment_receipt && order.payment_receipt.startsWith('/uploads/')) { %>
+          <div class="mb-2"><a href="<%= order.payment_receipt %>" target="_blank">Xem phiếu thanh toán đã upload</a></div>
+        <% } %>
+        <input type="file" name="payment_receipt" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Địa chỉ nhận hàng</label>
+        <textarea name="shipping_address" class="form-control" rows="3"><%= order.shipping_address %></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Trạng thái</label>
+        <select name="status" class="form-select">
+          <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>pending</option>
+          <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>processing</option>
+          <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>shipped</option>
+          <option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>completed</option>
+          <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>cancelled</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">Cập nhật</button>
+      <a href="/orders" class="btn btn-secondary">Quay lại</a>
+    </form>
+  </div>
+</body>
+</html>

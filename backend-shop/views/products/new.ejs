@@ -1,0 +1,84 @@
+<%- include('../layouts/sidebar') %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm sản phẩm mới</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2 class="text-center mb-4">🛒 Thêm sản phẩm mới</h2>
+    <div class="mb-3">
+      <a href="/products" class="btn btn-secondary">&larr; Quay lại danh sách</a>
+    </div>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+  <form action="/products" method="POST" class="card p-4 shadow-sm" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label class="form-label">Tên sản phẩm</label>
+  <input name="name" class="form-control" required value="<%= form && form.name ? form.name : '' %>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Mô tả</label>
+  <textarea name="description" class="form-control"><%= form && form.description ? form.description : '' %></textarea>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Giá</label>
+          <input type="number" name="price" class="form-control" required value="<%= form && form.price ? form.price : '' %>">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Số lượng</label>
+          <input type="number" name="quantity" class="form-control" required value="<%= form && form.quantity ? form.quantity : '' %>">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Xuất xứ</label>
+          <select name="origin" class="form-select" required>
+            <option value="">-- Chọn quốc gia --</option>
+            <option value="Việt Nam" <%= form && form.origin === 'Việt Nam' ? 'selected' : '' %>>Việt Nam</option>
+            <option value="United States" <%= form && form.origin === 'United States' ? 'selected' : '' %>>United States</option>
+            <option value="China" <%= form && form.origin === 'China' ? 'selected' : '' %>>China</option>
+            <option value="Japan" <%= form && form.origin === 'Japan' ? 'selected' : '' %>>Japan</option>
+            <option value="South Korea" <%= form && form.origin === 'South Korea' ? 'selected' : '' %>>South Korea</option>
+            <option value="Germany" <%= form && form.origin === 'Germany' ? 'selected' : '' %>>Germany</option>
+            <option value="France" <%= form && form.origin === 'France' ? 'selected' : '' %>>France</option>
+            <option value="United Kingdom" <%= form && form.origin === 'United Kingdom' ? 'selected' : '' %>>United Kingdom</option>
+            <option value="Italy" <%= form && form.origin === 'Italy' ? 'selected' : '' %>>Italy</option>
+            <option value="Canada" <%= form && form.origin === 'Canada' ? 'selected' : '' %>>Canada</option>
+            <option value="Australia" <%= form && form.origin === 'Australia' ? 'selected' : '' %>>Australia</option>
+            <option value="Thailand" <%= form && form.origin === 'Thailand' ? 'selected' : '' %>>Thailand</option>
+            <option value="Singapore" <%= form && form.origin === 'Singapore' ? 'selected' : '' %>>Singapore</option>
+            <option value="Malaysia" <%= form && form.origin === 'Malaysia' ? 'selected' : '' %>>Malaysia</option>
+            <option value="India" <%= form && form.origin === 'India' ? 'selected' : '' %>>India</option>
+            <option value="Indonesia" <%= form && form.origin === 'Indonesia' ? 'selected' : '' %>>Indonesia</option>
+            <option value="Russia" <%= form && form.origin === 'Russia' ? 'selected' : '' %>>Russia</option>
+            <option value="Brazil" <%= form && form.origin === 'Brazil' ? 'selected' : '' %>>Brazil</option>
+            <option value="Mexico" <%= form && form.origin === 'Mexico' ? 'selected' : '' %>>Mexico</option>
+            <option value="Other" <%= form && form.origin === 'Other' ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Thương hiệu</label>
+          <input name="brand" class="form-control" value="<%= form && form.brand ? form.brand : '' %>">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Danh mục</label>
+          <input name="category" class="form-control" value="<%= form && form.category ? form.category : '' %>">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Hình ảnh sản phẩm (có thể chọn nhiều)</label>
+        <input type="file" name="images" class="form-control" accept="image/*" multiple>
+      </div>
+      <div class="text-end">
+        <button class="btn btn-success">Lưu sản phẩm</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

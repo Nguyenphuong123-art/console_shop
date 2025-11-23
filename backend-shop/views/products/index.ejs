@@ -1,0 +1,75 @@
+<%- include('../layouts/sidebar') %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách sản phẩm</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2 class="text-center mb-4">🛒 Danh sách sản phẩm</h2>
+    <div class="d-flex justify-content-between mb-3">
+      <div></div>
+      <a href="/products/new" class="btn btn-success">+ Thêm sản phẩm</a>
+    </div>
+    <table class="table table-bordered table-striped shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th><th>Tên</th><th>Giá</th><th>Số lượng</th><th>Thương hiệu</th><th>Xuất xứ</th><th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(p => { %>
+          <tr>
+            <td><%= p.id %></td>
+            <td><%= p.name %></td>
+            <td><%= p.price %></td>
+            <td><%= p.quantity %></td>
+            <td><%= p.brand %></td>
+            <td><%= p.origin %></td>
+            <td>
+              <a href="/products/<%= p.id %>" class="btn btn-info btn-sm">Chi tiết</a>
+              <a href="/products/<%= p.id %>/edit" class="btn btn-warning btn-sm">Sửa</a>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<%= p.id %>">
+                Xóa
+              </button>
+
+              <!-- Modal Xác nhận xóa -->
+              <div class="modal fade" id="deleteModal<%= p.id %>" tabindex="-1" aria-labelledby="deleteModalLabel<%= p.id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                      <h5 class="modal-title" id="deleteModalLabel<%= p.id %>">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Xác nhận xóa
+                      </h5>
+                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="mb-1">Bạn có chắc chắn muốn xóa sản phẩm:</p>
+                      <p class="fs-5 fw-bold text-danger mb-1"><%= p.name %></p>
+                      <p class="small text-muted mb-0">Hành động này không thể hoàn tác!</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                      <form action="/products/<%= p.id %>?_method=DELETE" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">
+                          <i class="bi bi-trash-fill me-1"></i>Xác nhận xóa
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Thêm Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</body>
+</html>

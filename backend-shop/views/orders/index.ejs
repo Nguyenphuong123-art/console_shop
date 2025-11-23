@@ -1,0 +1,73 @@
+<%- include('../layouts/sidebar') %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách đơn hàng</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="mb-4">Danh sách đơn hàng</h1>
+    <a href="/orders/new" class="btn btn-success mb-3">+ Tạo đơn hàng</a>
+    <table class="table table-striped table-bordered bg-white shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Người đặt</th>
+          <th>Sản phẩm</th>
+          <th>Số lượng</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(o => { %>
+          <tr>
+            <td><%= o.id %></td>
+            <td><%= o.user_name %></td>
+            <td><%= o.product_name %></td>
+            <td><%= o.quantity %></td>
+            <td><%= o.status %></td>
+            <td>
+              <a href="/orders/<%= o.id %>" class="btn btn-info btn-sm">Chi tiết</a>
+              <a href="/orders/<%= o.id %>/edit" class="btn btn-warning btn-sm">Sửa</a>
+
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalOrder<%= o.id %>">
+                <i class="bi bi-trash"></i> Xóa
+              </button>
+
+              <!-- Modal Xác nhận xóa -->
+              <div class="modal fade" id="deleteModalOrder<%= o.id %>" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabelOrder<%= o.id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                      <h5 class="modal-title" id="deleteModalLabelOrder<%= o.id %>">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Xác nhận xóa đơn hàng
+                      </h5>
+                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Bạn có chắc chắn muốn xóa đơn hàng <strong>#<%= o.id %></strong> của <strong><%= o.user_name %></strong> không?</p>
+                      <p class="small text-danger">Hành động này không thể hoàn tác.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                      <form action="/orders/<%= o.id %>/delete" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
